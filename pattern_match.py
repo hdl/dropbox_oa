@@ -34,7 +34,7 @@ def patternMatches(p,s):
         #guess all substrings of s to be the value of this key and
         #recursively call patternMatches on each map
         else:
-            if len(p)==1:  # the last char in p, can map to anything
+            if len(p)==1:  # pruning, the last char in p, can map to anything
                 return True
             for i in range(1,len(s)+1):
                 guess = s[:i]
@@ -50,4 +50,6 @@ def patternMatches(p,s):
 
     return helper(p,s,{})
 if __name__ == "__main__":
-    print patternMatches("abc", "redblueredblue")
+    print patternMatches("abab", "redblueredblue")
+    print patternMatches("aaaa", "asdasdasdasd")
+    print patternMatches("aabb", "xyzabcxzyabc")
