@@ -51,4 +51,18 @@ class HitCounter{
         return sum;
     }
 
+    deque<pair<int, int> >::iterator binarySearch(deque<pair<int, int> >&hits, target){
+        int low=0; high=hits.size()-1;
+        while(low < high){
+            mid = (low + high)/2;
+            if(hits[mid].first == target)
+                return advance(hits.begin, mid);
+            else if(hits[mid].first < target)
+                low=mid+1;
+            else
+                low=mid-1
+        }
+        return hits.end()
+    }
+
 };
