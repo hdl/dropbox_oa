@@ -1,35 +1,4 @@
 
-class Solution {
-public:
-    vector<string> wordBreak(string s, unordered_set<string>& wordDict) {
-        string result;
-        vector<string> solutions;
-        vector<bool> possible(s.size()+1, true);
-        dfs(0, s, wordDict, result, solutions, possible);
-        return solutions;
-    }
-
-    void dfs(int start, string& s, unordered_set<string> &dict, string& result, vector<string>& solutions, vector<bool>& possible){
-        if(start==s.size()){
-            solutions.push_back(result.substr(0, result.size()-1));
-            return;
-        }
-
-        for(int i=start; i<s.size(); ++i){
-            string piece = s.substr(start, i - start + 1);
-            if (dict.count(piece) ==1 && possible[i+1]) // [0, start-1]ok  [start,i]ok ?[i+1, end]
-            {
-                 result.append(piece).append(" ");
-                 int beforeChange= solutions.size();
-                 dfs(i + 1, s, dict, result, solutions, possible);
-                 if(solutions.size() == beforeChange) // if no solution, set the possible to false
-                     possible[i+1] = false;
-                 result.resize(result.size() - piece.size()-1);
-             }
-        }
-    }
-};
-
 
 // letterCombinations
 vector<string> letterCombinations(string digits){
@@ -87,22 +56,40 @@ void dfs(string translations[], string &digits, int deep, string &result, vector
 
 }
 
+
+class Solution {
+public:
+    vector<string> wordBreak(string s, unordered_set<string>& wordDict) {
+        string result;
+        vector<string> solutions;
+        vector<bool> possible(s.size()+1, true);
+        dfs(0, s, wordDict, result, solutions, possible);
+        return solutions;
+    }
+
     void dfs(int start, string& s, unordered_set<string> &dict, string& result, vector<string>& solutions, vector<bool>& possible){
         if(start==s.size()){
             solutions.push_back(result.substr(0, result.size()-1));
             return;
         }
-
+        string piece = "";
         for(int i=start; i<s.size(); ++i){
-            string piece = result+translations[i];
-            if (dict.count(piece) ==1) // [0, start-1]ok  [start,i]ok ?[i+1, end]
+
+            for(j=0; j<translations[i].size(); j++){
+                piece+=translations[i][j];
+            if (dict.count(piece) ==1 && possible[i+1]) // [0, start-1]ok  [start,i]ok ?[i+1, end]
             {
                  result.append(piece).append(" ");
+                 int beforeChange= solutions.size();
                  dfs(i + 1, s, dict, result, solutions, possible);
+                 if(solutions.size() == beforeChange) // if no solution, set the possible to false
+                     possible[i+1] = false;
                  result.resize(result.size() - piece.size()-1);
              }
+                piece.resize();
+         }
         }
     }
-
+};
 
 
