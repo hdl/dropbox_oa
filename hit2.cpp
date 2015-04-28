@@ -1,4 +1,4 @@
-long now(){
+int now(){
     struct timeval time;
     gettimeofday(&time, NULL);
     return time.tv_sec;
@@ -10,6 +10,7 @@ class HitCounter{
     deque<pair<int, int> >hits;
 
     void prune(){
+        // the first greater thn now()-1
         auto old=upper_bound(hits.begin(), hits.end(), make_pair(now()-300), -1));
 
         if(old!=hits.end()){
@@ -33,6 +34,7 @@ class HitCounter{
     }
 
     int getLog(){
+        // the first pair in the vector >= now()-300
         auto before = lower_bound(hits.begin(), hits.end(), make_pair(now()-300), -1));
         if(before == hits.end())
             return 0;
